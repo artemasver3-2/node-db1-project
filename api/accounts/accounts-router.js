@@ -39,17 +39,18 @@ router.put(
   md.checkAccountNameUnique,
   md.checkAccountPayload,
   (req, res, next) => {
-    // DO YOUR MAGIC
     try {
+      
     } catch (err) {
       next(err);
     }
   }
 );
 
-router.delete('/:id', md.checkAccountId, (req, res, next) => {
-  // DO YOUR MAGIC
+router.delete('/:id', md.checkAccountId, async (req, res, next) => {
   try {
+    await Account.deleteById(req.params.id)
+    res.json(req.account)
   } catch (err) {
     next(err);
   }

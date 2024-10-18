@@ -54,7 +54,6 @@ exports.checkAccountId = async (req, res, next) => {
       });
     } else {
       req.account = account;
-      next();
     }
   } catch (err) {
     next(err);
