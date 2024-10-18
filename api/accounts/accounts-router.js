@@ -60,8 +60,7 @@ router.delete('/:id', md.checkAccountId, async (req, res, next) => {
   }
 });
 
-router.use((err, req, res, next) => {
-  // eslint-disable-line
+router.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.message || 500).json({
     message: err.message,
   });
