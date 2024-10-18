@@ -2,29 +2,29 @@ const Account = require('./accounts-model');
 const db = require('../../data/db-config');
 
 exports.checkAccountPayload = (req, res, next) => {
-  const error = { status: 404 };
   const { name, budget } = req.body;
 
   if (name === undefined || budget === undefined) {
-    error.message = 'name and budget are required';
-    next(error);
+    res.status(400).json({
+      message: 'name and budget are required',
+    });
   } else if (name.trim().length < 3 || name.trim().length > 100) {
-    error.message = 'name of account must be between 3 and 100';
-    next(error);
+    res.status(400).json({
+      message: 'name of account must be between 3 and 100',
+    });
   } else if (
-    typeof budget.trim().length !== 'number' ||
-    isNaN(budget.trim().length)
+    typeof budget !== 'number' ||
+    isNaN(budget)
   ) {
-    error.message = 'budget of account must be a number';
-    next(error);
+    res.status(400).json({
+      message: 'budget of account must be a number',
+    });
   } else if (budget <= 0 || budget >= 1000000) {
-    error.message = 'budget of account is too large or too small';
-    next(error);
-  }
-  if (error.message) {
-    next(error);
+    res.status(400).json({
+      message: 'budget of account is too large or too small',
+    });
   } else {
-    next();
+    next()
   }
 };
 
@@ -35,12 +35,10 @@ exports.checkAccountNameUnique = async (req, res, next) => {
       .first();
 
     if (takenNames) {
-      res.status(400).json({
-        message: 'that name is taken',
-      });
-    } else {
-      next();
-    }
+        res.status(400).json({
+          message: 'that name is taken',
+        });
+      }
   } catch (err) {
     next(err);
   }
