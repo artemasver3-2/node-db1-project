@@ -26,7 +26,7 @@ router.post(
   async(req, res, next) => {
     try {
       const newAccount = await Account.create(req.body)
-      return res.status(201).json(newAccount)
+      res.status(201).json(newAccount)
     } catch (err) {
       next(err);
     }
